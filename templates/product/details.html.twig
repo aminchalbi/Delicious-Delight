@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de {{ product.name }}{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body {
+        background: linear-gradient(to bottom, white 60%, #ffcccc 80%, red 1%);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<main class="container">
+    <section class="row">
+        <div class="col-12">
+            <h2>Détails de {{ product.name }}</h2>
+        </div>
+        <div class="col-6">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    {% for iteration in 1..product.images|length %}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ iteration - 1 }}" {{ loop.first ? 'class="active" aria-current="true"' : '' }} aria-label="Slide {{ iteration }}"></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner">
+                    {% for image in product.images %}
+                        <div class="carousel-item {{ loop.first ? 'active' : '' }}">
+                            {% if product.Categories.name == 'Poulet' %}
+                                <img src="{{ asset('essania/brochette.jpg') }}" class="d-block w-100" alt="{{ product.name }}">
+                            {% elseif product.Categories.name == 'Dinde' %}
+                                <img src="{{ asset('essania/dinde/' ~ image.name) }}" class="d-block w-100" alt="{{ product.name }}">
+                            {% elseif product.Categories.name == 'Charcuterie' %}
+                                <img src="{{ asset('essania/charcuterie/' ~ image.name) }}" class="d-block w-100" alt="{{ product.name }}">
+                            {% elseif product.Categories.name == 'Surgelé' %}
+                                <img src="{{ asset('essania/surgele/' ~ image.name) }}" class="d-block w-100" alt="{{ product.name }}">
+                            {% else %}
+                                <!-- Default image if no category matches -->
+                                <img src="{{ asset('essania/default.jpg') }}" class="d-block w-100" alt="{{ product.name }}">
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-6">
+            <p>{{ product.description }}</p>
+            <p>Catégorie : {{ product.Categories.name }}</p>
+            <p>Prix : {{ product.price }}</p>
+            {% if product.stock > 0 %}
+                <a href="{{ path('cart_add', { id: product.id }) }}" class="btn btn-success">Ajouter au panier</a>
+            {% else %}
+                <p class="text-danger">Temporairement en rupture de stock</p>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}

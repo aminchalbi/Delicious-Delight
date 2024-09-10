@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body {
+        background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+        margin: 0;
+        font-family: Arial, sans-serif; /* Optional: Add a font for better styling */
+    }
+
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(to bottom, #ffffff, #e0e0e0); /* Adjust this gradient as needed */
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .login-form {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        background: #ffffff; /* Optional: Ensure the form has a solid background */
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="login-container">
+    <form method="post" class="login-form">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+        <h1 class="h3 mb-3 font-weight-normal text-center">Sign in</h1>
+        <label for="inputEmail">Email</label>
+        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+        <label for="inputPassword">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        {% if app.user and app.user.isVerified == false %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="alert-message">
+                    <strong>Votre compte n'est pas activé</strong>, renvoyer le lien d'activation
+                </div>
+            </div>
+        {% endif %}
+
+        <button class="btn btn-lg btn-primary btn-block w-100 mt-3" type="submit">
+            Sign in
+        </button>
+        <a href="{{ path('app_register') }}" class="btn btn-secondary mt-3">Register</a>
+        <a href="{{ path('forgotten_password') }}" class="btn btn-secondary mt-3">Mot de passe oublié</a>
+    </form>
+</div>
+{% endblock %}

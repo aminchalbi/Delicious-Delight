@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des produits pour la catégorie {{ category.name }}{% endblock %}
+
+{% block body %}
+<main class="container">
+    <section class="row">
+        <div class="col-12 mb-4">
+            <h1>Produits dans la catégorie {{ category.name }}</h1>
+        </div>
+        {% for product in products.data %}
+            <div class="col-md-3 mb-4">
+                <article class="card h-100">
+                    {% if category.name == 'Poulet' %}
+                        {% if product.name == 'Dolores.' %}
+                            <img src="{{ asset('essania/brochette.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                        {% elseif product.name == 'Quisquam.' %}
+                            <img src="{{ asset('essania/charcut.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                        {% else %}
+                            <img src="{{ asset('essania/default_poulet.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                        {% endif %}
+                    {% elseif category.name == 'Dinde' %}
+                        <img src="{{ asset('essania/unnamed.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                    {% elseif category.name == 'Charcuterie' %}
+                        <img src="{{ asset('essania/charcut.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                    {% elseif category.name == 'Surgelé' %}
+                        <img src="{{ asset('essania/surgeles.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                    {% else %}
+                        <img src="{{ asset('essania/default.jpg') }}" alt="{{ product.name }}" class="card-img-top">
+                    {% endif %}
+                    <div class="card-body">
+                        <h2 class="card-title">{{ product.name }}</h2>
+                        <p class="card-text">{{ product.description }}</p>
+                        <a href="{{ path('product_details', {'slug': product.slug}) }}" class="btn btn-success">Voir les détails</a>
+                    </div>
+                </article>
+            </div>
+        {% endfor %}
+        
+        {% set path = 'categories_list' %}
+        {% set slug = category.slug %}
+        {% set pages = products.pages %}
+        {% set currentPage = products.page %}
+        {% include '_partials/pagination.html.twig' %}
+    </section>
+</main>
+{% endblock %}

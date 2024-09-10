@@ -1,0 +1,222 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Essania{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body {
+        background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+        font-family: Arial, sans-serif;
+    }
+
+    .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-body {
+        flex: 1 0 auto;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    h1, h2, h3 {
+        color: #000;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .category-header {
+        border-bottom: 2px solid #ffcccc;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .card-body a {
+        text-decoration: none;
+    }
+
+    .portfolio-section {
+        margin-bottom: 40px;
+    }
+
+    .carousel-inner {
+        height: 1050px; /* Adjust height to suit your needs */
+        position: relative;
+    }
+
+    .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensure image covers the container */
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+        width: 5%;
+        /* Adjust the width of the navigation arrows */
+    }
+
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Optional: add background to arrows for better visibility */
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px; /* Adjust height as needed */
+        object-fit: cover; /* Ensure the image covers the container */
+    }
+
+    .company-description {
+        background: url('{{ asset('essania/unnamed.jpg') }}') no-repeat center center;
+        background-size: cover; /* Ensure the image covers the container */
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 40px;
+        position: relative;
+        color: #fff; /* Change text color to white for better contrast */
+    }
+
+    .company-description::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); /* Dark overlay to enhance text readability */
+        border-radius: 10px;
+        z-index: 1; /* Ensure the overlay is above the background image */
+    }
+
+    .company-description h2, 
+    .company-description p {
+        position: relative;
+        z-index: 2; /* Ensure text is above the overlay */
+    }
+
+    .categories-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .categories-title h2 {
+        font-size: 2rem;
+        color: #28a745;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <!-- Portfolio Section -->
+    <div class="col-12 portfolio-section">
+        <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{ asset('essania/brochette.jpg') }}" class="d-block w-100" alt="Brochette">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('/essania/charcut.jpg') }}" class="d-block w-100" alt="Charcuterie">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('essania/habillage.jpg') }}" class="d-block w-100" alt="Habillage Mariné">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('/essania/surgeles.jpg') }}" class="d-block w-100" alt="Surgelés">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Company Description -->
+    <div class="container">
+        <div class="company-description">
+            <h2>Présentation de ESSANIA</h2>
+            <p>Présente sur le marché depuis près de 15 ans, la Société ESSANIA, plus connue sous l’appellation commerciale « COCORICO », sise à la zone industrielle de Mghira au Grand-Tunis, a su s'imposer comme étant une référence dans le secteur grâce à une combinaison d'un savoir-faire traditionnel et de procédés de fabrications modernes. COCORICO a pu conquérir une clientèle large opérant dans différents segments d’activité (GMS « Carrefour, Magasin Général, Collectivités ;, Grossiste », hôtels, chaîne de point de vente, restaurants, activités de gros…). La société ESSANIA, adossée au Groupe « TAISSIR », est un groupe avicole intégré opérant dans la nutrition animale, le couvoir, l’élevage, l’abattage, la transformation des viandes ainsi qu’une chaîne de point de vente « COCORICO ». Elle bénéficie de cette intégration qui relate les différentes étapes de production qui garantit à nos produits une qualité maîtrisée.</p>
+        </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="container">
+        <div class="categories-title">
+            <h2>Explorer nos différentes catégories</h2>
+        </div>
+        <div class="row">
+           {% for category in categories %}
+                {% if category.name == 'Dinde' %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <img src="{{ asset('image/images.jpg') }}" class="card-img-top" alt="Dinde">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ category.name }}</h3>
+                                <a href="{{ path('categories_list', { slug: category.slug }) }}" class="btn btn-success">Voir les produits</a>
+                            </div>
+                        </div>
+                    </div>
+                {% elseif category.name == 'Poulet' %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <img src="{{ asset('image/poulet.jpg') }}" class="card-img-top" alt="Poulet">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ category.name }}</h3>
+                                <a href="{{ path('categories_list', { slug: category.slug }) }}" class="btn btn-success">Voir les produits</a>
+                            </div>
+                        </div>
+                    </div>
+                {% elseif category.name == 'Charcuterie' %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <img src="{{ asset('image/charcuterie.jpg') }}" class="card-img-top" alt="Charcuterie">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ category.name }}</h3>
+                                <a href="{{ path('categories_list', { slug: category.slug }) }}" class="btn btn-success">Voir les produits</a>
+                            </div>
+                        </div>
+                    </div>
+                {% elseif category.name == 'Surgelé' %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <img src="{{ asset('image/surgelé.jpg') }}" class="card-img-top" alt="Surgelé">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ category.name }}</h3>
+                                <a href="{{ path('categories_list', { slug: category.slug }) }}" class="btn btn-success">Voir les produits</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+           {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,110 @@
+<!-- Votre contenu principal ici -->
+
+<footer class="bg-custom text py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3 mb-md-0">
+               <a href="{{ path('contact') }}" class="btn btn-danger">Contact us</a>
+
+                <p>
+                    <br>
+                    Email: <a href="mailto:contact@essania.com" class="text">contact@essania.com</a><br>
+                    Téléphone: <a href="tel:+1234567890" class="text">+123 456 7890</a>
+                </p>
+            </div>
+            <div class="col-md-4 mb-3 mb-md-0 text-center">
+                <h5>Suivez-nous</h5>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/essania" class="text-light me-2" target="_black" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/essania" class="text-light me-2" target="_black" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <p class="mb-0">
+                    &copy; {{ "now"|date("Y") }} Essania. Tous droits réservés. | Développé par Mohamed Amine Chalbi
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Fiery effect section -->
+<div class="fire-effect">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="flame-svg">
+        <!-- Example flame paths; adjust or add more for complexity -->
+        <path d="M50,10 L60,40 L50,60 L40,40 Z" fill="#ff4500" />
+        <path d="M45,15 L55,40 L45,55 L35,40 Z" fill="#ff6347" />
+        <path d="M40,20 L50,45 L40,50 L30,30 Z" fill="#ff8c00" />
+    </svg>
+</div>
+
+{% block javascripts %}
+<!-- Include FontAwesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .bg-custom {
+        background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+    }
+    .footer a {
+        color: black;
+        transition: color 0.3s;
+    }
+    .footer a:hover {
+        color: black;
+    }
+    .social-icons a {
+        font-size: 1.5rem;
+        transition: transform 0.3s;
+    }
+    .social-icons a:hover {
+        transform: scale(1.2);
+    }
+
+    .fire-effect {
+        position: relative;
+        height: 100px; /* Adjust height as needed */
+        overflow: hidden;
+        background: #333; /* Dark background to contrast with flames */
+    }
+
+    .flame-svg {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 200%; /* Extend width to cover the area */
+        height: auto;
+        transform: translateX(-50%);
+        animation: flicker 1s infinite alternate, sway 2s infinite ease-in-out;
+    }
+
+    @keyframes flicker {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        100% {
+            opacity: 0.6;
+            transform: translateY(-10px);
+        }
+    }
+
+    @keyframes sway {
+        0% {
+            transform: translateX(-50%) rotate(-10deg);
+        }
+        50% {
+            transform: translateX(-50%) rotate(10deg);
+        }
+        100% {
+            transform: translateX(-50%) rotate(-10deg);
+        }
+    }
+</style>
+{% endblock %}

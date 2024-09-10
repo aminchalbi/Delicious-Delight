@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+{% block title %}Contact Us{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Contact Us</h1>
+
+        {{ form_start(form) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.message) }}
+            <div class="form-group">
+                {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+            </div>
+        {{ form_end(form) }}
+
+        <div id="mapid" class="map-container"></div>
+    </div>
+
+    {# Include Leaflet.js CSS and JS #}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+        .map-container {
+            width: 100%;
+            height: 500px;
+            margin-top: 20px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: height 0.3s ease;
+        }
+
+        .map-container:hover {
+            height: 600px;
+        }
+
+        @media (max-width: 768px) {
+            .map-container {
+                height: 400px;
+            }
+        }
+    </style>
+
+    <script>
+        // Initialize the map and set its view to a default location
+        var mymap = L.map('mapid').setView([36.7139, 10.1731], 13);
+
+        // Add the tile layer from OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(mymap);
+
+        // Destination point (Mghira)
+        var destinationPoint = [36.7139, 10.1731]; 
+        var destinationMarker = L.marker(destinationPoint).addTo(mymap).bindPopup("Destination: Mghira").openPopup();
+
+        // Function to get the route from OSRM API and draw it on the map
+        function getRoute(start, end) {
+            var url = `https://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var route = data.routes[0].geometry;
+
+                    // Add the route to the map
+                    var routeLayer = L.geoJSON(route, {
+                        style: function () {
+                            return { color: "blue", weight: 4 };
+                        }
+                    }).addTo(mymap);
+
+                    // Adjust the map view to fit the route
+                    mymap.fitBounds(routeLayer.getBounds());
+                })
+                .catch(err => console.error(err));
+        }
+
+        // Geolocation: Get user's current position and trace the route
+        function onLocationFound(e) {
+            var userLocation = e.latlng;
+
+            // Add a marker for the user's current location
+            var userMarker = L.marker(userLocation).addTo(mymap)
+                .bindPopup("You are here").openPopup();
+
+            // Trace the route from user's current location to the destination
+            getRoute([userLocation.lat, userLocation.lng], destinationPoint);
+        }
+
+        function onLocationError(e) {
+            alert(e.message);  // Handle geolocation error (if the user denies location access)
+        }
+
+        // Request the user's location
+        mymap.on('locationfound', onLocationFound);
+        mymap.on('locationerror', onLocationError);
+
+        // Locate the user
+        mymap.locate({setView: true, maxZoom: 16});
+    </script>
+{% endblock %}

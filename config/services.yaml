@@ -1,24 +1,78 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
 
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
-parameters:
+
+
 
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+    App\Security\UsersAuthenticator:
+        arguments:
+            $urlGenerator: '@router'
+        tags:
+            - { name: 'security.authenticator' }
+
+   # config/services.yaml
+
+    # Vous pouvez définir des services ici
+    # Par exemple :
+    # App\Service\SomeService:
+    #     arguments: ['@some_other_service']
+    
+    # Autoconfigure et autowire toutes les classes dans src/
+    # Il est habituel de ne pas avoir besoin d'une configuration spécifique pour ces classes
+   
+  
+        # Vous pouvez ajouter d'autres configurations si nécessaire
+       
+   
+    App\Repository\CategoriesRepository:
+        arguments:
+            $registry: '@doctrine'
+
+    # Pour les services de votre application
+    # Vous pouvez les ajouter ici avec des définitions spécifiques
+       
+    App\Repository\UsersRepository:
+        arguments:
+            $registry: '@doctrine'
+
+    App\Controller\Admin\ProductsController:
+        arguments:
+            $someService: '@some_service' 
+            $productsRepository: '@App\Repository\ProductsRepository'
+            $entityManager: '@doctrine.orm.entity_manager'
+            $slugger: '@slugger'
+            $pictureService: '@App\Service\PictureService\PictureService' # Replace with your actual services
+        tags:
+            - { name: 'controller.service_arguments' }
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller_service']
+
+       
     App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+        resource: '../src/*'
+        exclude: '../src/{Entity,Repository,Kernel.php}'
+   
+          
+         
+  
+    
+    App\Service\PictureService\PictureService:
+        arguments:
+            $params: '@parameter_bag'
+            $logger: '@logger'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Repository\ProductsRepository:
+        tags: ['doctrine.repository_service']
+
+    
+
+
+
+
+       
+
+    

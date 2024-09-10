@@ -1,0 +1,91 @@
+{% block stylesheets %}
+    <!-- Assurez-vous d'inclure Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .navbar {
+            background-color: #fff; /* Couleur de fond sombre pour la barre de navigation */
+            padding: 0.5rem 1rem; /* Ajustez le padding pour un espacement uniforme */
+        }
+
+        .navbar-nav {
+            flex-direction: row; /* Aligner les éléments horizontalement */
+            justify-content: center; /* Centrer les éléments horizontalement */
+            margin: 0; /* Retirer les marges par défaut */
+            width: 100%; /* Prendre toute la largeur disponible */
+        }
+
+        .navbar-nav .nav-item {
+            margin: 0 1rem; /* Espacement entre les éléments */
+        }
+
+        .navbar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            color: #000; /* Couleur du texte */
+            font-size: 1rem; /* Taille de la police */
+            transition: color 0.3s ease; /* Transition douce pour les effets au survol */
+            text-decoration: none; /* Supprimer le soulignement des liens */
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #fff; /* Couleur au survol des liens */
+        }
+
+        .navbar-nav .nav-link i {
+            margin-right: 8px; /* Espacement entre l'icône et le texte */
+            font-size: 1.2rem; /* Taille des icônes */
+        }
+
+        .navbar-toggler-icon {
+            background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><path stroke="%23ffffff" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"/></svg>');
+        }
+
+        .navbar-brand img {
+            height: 80px; /* Ajuster la hauteur du logo */
+        }
+    </style>
+{% endblock %}
+
+<nav class="navbar navbar-expand-lg navbar-blue">
+    <div class="container">
+        <a class="navbar-brand p-0" href="#" >
+            <img src="{{ asset('image/logo.png') }}" alt="Logo" style="height: 170px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ path('main') }}"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-box"></i> Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('contact') }}""><i class="fas fa-envelope"></i> Contact</a>
+                </li>
+                {% if app.user %}
+                    {% if is_granted('ROLE_PRODUCT_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin_index') }}"><i class="fas fa-cogs"></i> Admin</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user"></i> My Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}"><i class="fas fa-user-plus"></i> Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
